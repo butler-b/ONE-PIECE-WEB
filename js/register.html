@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Want Peace with MOKONIX : Register</title>
+    <link rel="stylesheet" href="../css/register.css"> <!-- 위의 CSS를 적용 -->
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+<body>
+    <section class="register-form">
+        <h1>Register</h1>
+        <form action="/api/register" method="POST">
+            <div class="int-area">
+                <input type="text" name="name" id="name" autocomplete="off" required>
+                <label for="name">Name</label>
+            </div>
+            <div class="int-area">
+                <input type="email" name="email" id="email" autocomplete="off" required>
+                <label for="email">Email</label>
+            </div>
+            <div class="int-area">
+                <input type="password" name="password" id="password" autocomplete="off" required>
+                <label for="password">Password</label>
+            </div>
+            <div class="btn-area">
+                <button type="submit">REGISTER</button>
+            </div>
+        </form>
+        <div class="cpation">
+            <a href="../index.html">Already have an account? Login</a>
+        </div>
+    </section>
+</body>
+</html>
+
