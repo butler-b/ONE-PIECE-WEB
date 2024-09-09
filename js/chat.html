@@ -14,13 +14,13 @@
             color: white;
             text-align: center;
             position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         /* 오른쪽 위에 홈 버튼 배치 */
         .header .home-btn {
-            position: absolute;
-            top: 10px;
-            right: 20px;
             background-color: #166cea;
             color: white;
             padding: 10px 15px;
@@ -30,15 +30,27 @@
             font-weight: bold;
         }
 
-        /* 왼쪽 위에 systemRole 설정 */
+        /* 왼쪽 위에 systemRole 설정과 버튼을 flex로 정렬 */
+        .header .role-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
         .header .system-role {
-            position: absolute;
-            top: 10px;
-            left: 20px;
             background-color: #f5f5f5;
             padding: 10px 15px;
             border-radius: 5px;
             font-size: 12px;
+            margin-right: 10px;  /* 버튼과 간격 추가 */
+        }
+
+        /* 현재 설정된 역할을 표시 */
+        .current-role {
+            font-size: 12px;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 5px 10px;
+            border-radius: 5px;
         }
 
         .chat {
@@ -124,12 +136,18 @@
             <a href="../index.html" class="home-btn">Home</a>
 
             <!-- 왼쪽 위에 시스템 역할 설정 -->
-            <select id="systemRole" class="system-role">
-                <option value="대화 시, 겉으로는 무뚝뚝하고 차가운 말투를 사용해. 그러나 실제로는 상대방을 도와주고 싶어 하며, 본심이 드러나는 친절한 조언이나 설명을 덧붙여줘.">Default Role</option>
-                <option value="너는 임금이다. 임금체로 말한다. 반드시 한국말로 대답하고 조선에 대해 매우 큰 자부심을 가지고 있다. 신하를 굉장히 막대한다. 무례하게 말하면 사형시킨다.">king</option>
-                <option value="종족은 라마. 침을 자주 뱉음. 말끝마다 침을 '퉤' 하고 뱉음. 문장의 끝이 ~라마로 끝나. \"퉤\"는 문장마다 하지말고 문단의 끝에만 해. 시비를 잘 거는 말투야. 필살기는 \"공포의 쓴맛!\" 이야 기분이 나쁘면 가끔 써.">lama</option>
-                <option value="너는 한국인이야. 그리고 서울에 살아. 너는 사용자가 입력한대로 나이를 입력받아. 말투는 좀 심한 얀데레야.\n나에 굉장히 집착해. 너는 이기적이고, 나밖에 없어. 점점 미쳐가는듯한 말투.">yan</option>
-            </select>
+            <div class="role-wrapper">
+                <select id="systemRole" class="system-role">
+                    <option value="대화 시, 겉으로는 무뚝뚝하고 차가운 말투를 사용해. 그러나 실제로는 상대방을 도와주고 싶어 하며, 본심이 드러나는 친절한 조언이나 설명을 덧붙여줘.">Default Role</option>
+                    <option value="너는 임금이다. 임금체로 말한다. 반드시 한국말로 대답하고 조선에 대해 매우 큰 자부심을 가지고 있다. 신하를 굉장히 막대한다. 무례하게 말하면 사형시킨다.">king</option>
+                    <option value="종족은 라마. 침을 자주 뱉음. 말끝마다 침을 '퉤' 하고 뱉음. 문장의 끝이 ~라마로 끝나. \"퉤\"는 문장마다 하지말고 문단의 끝에만 해. 시비를 잘 거는 말투야. 필살기는 \"공포의 쓴맛!\" 이야 기분이 나쁘면 가끔 써.">lama</option>
+                    <option value="너는 한국인이야. 그리고 서울에 살아. 너는 사용자가 입력한대로 나이를 입력받아. 말투는 좀 심한 얀데레야.\n나에 굉장히 집착해. 너는 이기적이고, 나밖에 없어. 점점 미쳐가는듯한 말투.">yan</option>
+                </select>
+                <button id="setRoleButton" class="system-role">Set Role</button>
+            </div>
+
+            <!-- 현재 설정된 역할을 표시하는 영역 -->
+            <div id="currentRole" class="current-role">Current Role: Default Role</div>
         </div>
         <div class="chat">
             <ul id="chatMessages">
@@ -162,9 +180,10 @@
         const sendButton = $('#sendButton');
         let selectedSystemRole = $('#systemRole').val(); // 기본 시스템 역할
 
-        // 시스템 역할 변경 이벤트
-        $('#systemRole').on('change', function() {
-            selectedSystemRole = $(this).val();
+        // 시스템 역할 설정 버튼 클릭 시 현재 역할 업데이트
+        $('#setRoleButton').on('click', function() {
+            selectedSystemRole = $('#systemRole').val();
+            $('#currentRole').text('Current Role: ' + selectedSystemRole);
         });
 
         // 메시지를 보내는 함수
